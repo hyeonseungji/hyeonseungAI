@@ -105,7 +105,7 @@ def DFS(state,input_map,output_map,stack,goal):
 
 	return answer
 
-def DeepS(state,input_map,output_map,stack,goal):
+def IDS(state,input_map,output_map,stack,goal):
 
 	size_x = len(input_map)
 	size_y = len(input_map[0])
