@@ -434,7 +434,7 @@ def A_star(state,input_map,output_map,goal):
 	answer.append(j)
 		
 	return answer
-def BFS(state,input_map,output_map,que,goal):
+def BFS(state,input_map,output_map,goal):
 
 	size_x = len(input_map)
 	size_y = len(input_map[0])
@@ -446,6 +446,8 @@ def BFS(state,input_map,output_map,que,goal):
 
 	past_x = initial_state[0]
 	past_y = initial_state[1]
+	
+	que = queue.Queue()
 
 	i = 0
 
