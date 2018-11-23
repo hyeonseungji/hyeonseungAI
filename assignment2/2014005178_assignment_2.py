@@ -13,8 +13,8 @@ def Learn(input_string):
 	line = f.readline()
 	T_DB = []
 	S_DB = {}  # 리턴할 Dictionary
-	number_of_bad = 0 # 부정적 반응의 리뷰 갯수
-	number_of_good = 0 # 긍정적 반응의 리뷰 갯수
+	number_of_bad = 0 # 부정적 반응의 리뷰 개수
+	number_of_good = 0 # 긍정적 반응의 리뷰 개수
 	string_buf = []
 	twitter = Twitter()
 
@@ -36,7 +36,7 @@ def Learn(input_string):
 		'''
 
 		for i in range(1,len(line)):
-			if line[i] in string_buf:
+			if line[i] in string_buf: # 하나의 리뷰에서 2개 이상 나오는 단어는 중복하여 사전에 등재하지 않습니다.
 				continue
 			string_buf.append(line[i])
 			if line[0] == '0':
@@ -97,7 +97,7 @@ def Calculate(input_string,S_DB):
 		if not line:
 			break
 		line = twitter.morphs(line)
-		line.pop()
+		line.pop() #\n 제거
 
 		string_buf = []
 		sum_of_bad = 1
@@ -112,8 +112,9 @@ def Calculate(input_string,S_DB):
 			if buf == None: # 사전에 있지 않은 단어는 무시합니다.
 				continue
 
-			p_bad = math.log(buf[0]+1) # 사전에 있는 단어 중 빈도수가 0인 경우 log scale에서 제대로 된 값이 나오지 않기 때문에 1을 더해줍니다.
-			p_good = math.log(buf[1]+1)
+			p_bad = math.log(buf[0]+1) - math.log(number_of_bad)
+			# 사전에 있는 단어 중 빈도수가 0인 경우 log scale에서 제대로 된 값이 나오지 않기 때문에 1을 더해줍니다.
+			p_good = math.log(buf[1]+1) - math.log(number_of_good)
 			sum_of_bad += p_bad
 			sum_of_good += p_good
 
